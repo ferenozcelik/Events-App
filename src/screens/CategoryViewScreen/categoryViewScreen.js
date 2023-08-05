@@ -9,10 +9,9 @@ import {
 import React from 'react';
 import styles from './categoryViewScreenStyles';
 import colors from '../../assets/colors/colors';
-import logo from '../../assets/images/eventsLogo-white.png';
-import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import BigEventComponent from '../../components/BigEventComponent';
+import HeaderComponent from '../../components/HeaderComponent';
 
 const CategoryViewScreen = ({route, navigation}) => {
   const {categoryName} = route.params;
@@ -20,13 +19,7 @@ const CategoryViewScreen = ({route, navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
-        <LinearGradient
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          colors={[colors.lightblue, colors.midblue]}
-          style={styles.linearGradient}>
-          <Image source={logo} style={styles.logo} />
-        </LinearGradient>
+        <HeaderComponent />
       </View>
 
       <View style={styles.contentContainer}>
@@ -67,21 +60,21 @@ const CategoryViewScreen = ({route, navigation}) => {
           />
           <BigEventComponent
             title="Mountain Climbing Training for Beginners"
-            location="Los Angeles, Indiana, US"
+            location="Los Angeles, California, US"
             month="January"
             day="9"
           />
           <BigEventComponent
             title="The Uppsala River Rafting Event"
-            location="Los Angeles, Indiana, US"
+            location="Los Angeles, California, US"
             month="January"
             day="11"
           />
           <BigEventComponent
             title="Curabitur malesuada laoreet volutpat fusce"
-            location="Los Angeles, Indiana, US"
-            month="January"
-            day="17"
+            location="Los Angeles, California, US"
+            month="February"
+            day="01"
           />
         </View>
       </View>

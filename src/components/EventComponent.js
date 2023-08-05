@@ -6,6 +6,29 @@ import {useNavigation} from '@react-navigation/native';
 
 const EventComponent = props => {
   const navigation = useNavigation();
+  const item = props.item;
+
+  function getMonthName(dateString) {
+    var arr = dateString.split('-');
+    var months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    var month_index = parseInt(arr[1], 10) - 1;
+    return months[month_index];
+  }
+
+  var monthName = getMonthName(item.date);
 
   return (
     <TouchableOpacity
@@ -13,10 +36,8 @@ const EventComponent = props => {
         navigation.navigate('EventsStackNavigator', {
           screen: 'EventDetailsScreen',
           params: {
-            title: props.title,
-            location: props.location,
-            month: props.month,
-            day: props.day,
+            item,
+            monthName: monthName,
           },
         });
       }}>
@@ -24,20 +45,24 @@ const EventComponent = props => {
         <View style={styles.eventBox}>
           <View style={styles.eventInfoContainer}>
             <View style={styles.eventImageContainer}>
-              <Image source={eventImage} style={styles.eventImage} />
+              <Image source={{uri: item.image}} style={styles.eventImage} />
             </View>
             <View style={styles.eventDetailsContainer}>
               <View style={styles.eventDateContainer}>
                 <Text style={styles.eventDateText}>
-                  {props.month.slice(0, 3)}
+                  {monthName.slice(0, 3)}
                 </Text>
-                <Text style={styles.eventDateText}>{props.day}</Text>
+                <Text style={styles.eventDateText}>{item.date.slice(-2)}</Text>
               </View>
               <View style={styles.eventTitleContainer}>
                 <Text style={styles.eventTitleText} numberOfLines={2}>
-                  {props.title}
+                  {item.title}
                 </Text>
-                <Text style={styles.eventLocationText}>{props.location}</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.eventLocationText}>{item.city}, </Text>
+                  <Text style={styles.eventLocationText}>{item.state}, </Text>
+                  <Text style={styles.eventLocationText}>{item.country}</Text>
+                </View>
               </View>
             </View>
           </View>
@@ -94,6 +119,7 @@ const styles = StyleSheet.create({
     color: colors.darkblue,
     fontSize: 14,
     maxWidth: 260,
+    // minHeight: 36,
   },
   eventLocationText: {
     fontFamily: 'Montserrat-Medium',

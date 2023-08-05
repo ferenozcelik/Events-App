@@ -15,7 +15,8 @@ import colors from '../../assets/colors/colors';
 import map from '../../assets/images/map.png';
 
 const EventDetailsScreen = ({route, navigation}) => {
-  const {title, location, month, day} = route.params;
+  // const {title, location, month, day} = route.params;
+  const {item, monthName} = route.params;
 
   const [favorite, setFavorite] = useState(false);
   const toggleFavorite = () => {
@@ -25,7 +26,7 @@ const EventDetailsScreen = ({route, navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <ImageBackground source={eventImage} style={styles.eventImage}>
+        <ImageBackground source={{uri: item.image}} style={styles.eventImage}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity
               onPress={() => {
@@ -60,7 +61,7 @@ const EventDetailsScreen = ({route, navigation}) => {
       </View>
       <View style={styles.eventDetailsContainer}>
         <View style={styles.eventTitleContainer}>
-          <Text style={styles.eventTitle}>{title}</Text>
+          <Text style={styles.eventTitle}>{item.title}</Text>
         </View>
         <View style={styles.eventDateTimeContainer}>
           <Feather
@@ -69,9 +70,9 @@ const EventDetailsScreen = ({route, navigation}) => {
             color={colors.darkblue}
             style={{marginRight: 10}}
           />
-          <Text style={styles.dateTimeText}>{day} </Text>
-          <Text style={styles.dateTimeText}>{month} </Text>
-          <Text style={styles.dateTimeText}>2023</Text>
+          <Text style={styles.dateTimeText}>{item.date.slice(-2)} </Text>
+          <Text style={styles.dateTimeText}>{monthName} </Text>
+          <Text style={styles.dateTimeText}>{item.date.slice(0, 4)}</Text>
         </View>
         <View style={styles.eventDateTimeContainer}>
           <Feather
@@ -81,7 +82,7 @@ const EventDetailsScreen = ({route, navigation}) => {
             style={{marginRight: 10}}
           />
           <Text style={styles.dateTimeText}>Start Time: </Text>
-          <Text style={styles.dateTimeText}>19.30</Text>
+          <Text style={styles.dateTimeText}>{item.time}</Text>
         </View>
         <View style={styles.eventLocationContainer}>
           <Feather
@@ -91,8 +92,12 @@ const EventDetailsScreen = ({route, navigation}) => {
             style={{marginRight: 10}}
           />
           <View>
-            <Text style={styles.locationText}>{location}</Text>
-            <Text style={styles.locationSubText}>12880 E. 146th St.</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.locationText}>{item.city}, </Text>
+              <Text style={styles.locationText}>{item.state}, </Text>
+              <Text style={styles.locationText}>{item.country}</Text>
+            </View>
+            <Text style={styles.locationSubText}>{item.address}</Text>
           </View>
         </View>
 
@@ -102,13 +107,7 @@ const EventDetailsScreen = ({route, navigation}) => {
 
         <View style={styles.subDetailsContainer}>
           <Text style={styles.subDetailsText}>Details</Text>
-          <Text style={styles.subDetailsSubText}>
-            This is an outdoor venue with portions of the reserved seats under
-            cover. The show will take place rain or shine. All dates, acts, &
-            ticket prices subject to change without notice. All tickets are
-            subject to applicable service fees via all points of sale. Children
-            under 2 are free as long as they don't take up a seat.
-          </Text>
+          <Text style={styles.subDetailsSubText}>{item.details}</Text>
         </View>
       </View>
     </ScrollView>

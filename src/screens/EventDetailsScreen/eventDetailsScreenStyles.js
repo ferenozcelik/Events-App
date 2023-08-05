@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   },
   subDetailsContainer: {
     marginTop: 20,
+    marginBottom: 10,
   },
   subDetailsText: {
     fontFamily: 'Montserrat-Bold',

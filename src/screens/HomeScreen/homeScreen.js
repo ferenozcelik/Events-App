@@ -1,23 +1,41 @@
-import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import styles from './homeScreenStyles';
-import logo from '../../assets/images/eventsLogo-white.png';
-import LinearGradient from 'react-native-linear-gradient';
-import colors from '../../assets/colors/colors';
 import CategoryComponent from '../../components/CategoryComponent';
 import EventComponent from '../../components/EventComponent';
+import HeaderComponent from '../../components/HeaderComponent';
+import {apiURL} from '../../components/Constants';
 
 const HomeScreen = ({navigation}) => {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(apiURL)
+      .then(response => response.json())
+      .then(json => setData(json.data))
+      .catch(error => alert(error))
+      .finally(() =>
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000),
+      );
+  }, []);
+
+  const renderItem = ({item}) => <EventComponent item={item} />;
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
-        <LinearGradient
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          colors={[colors.lightblue, colors.midblue]}
-          style={styles.linearGradient}>
-          <Image source={logo} style={styles.logo} />
-        </LinearGradient>
+        <HeaderComponent />
       </View>
 
       <View style={styles.contentContainer}>
@@ -37,92 +55,62 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
 
-        <View style={styles.eventBrowserContainer}>
-          <View style={styles.browserTitleContainer}>
-            <Text style={styles.browserText}>UPCOMING EVENTS</Text>
-            <TouchableOpacity>
-              <Text style={styles.browserExpandText}>View All</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.eventsContainer}>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <EventComponent
-                title="Mountain Climbing Training for Beginners"
-                location="Noblesville, Indiana, US"
-                month="January"
-                day="26"
-              />
-              <EventComponent
-                title="Athleta Mind Over Madness Yoga at The Fields"
-                location="Los Angeles, Indiana, US"
-                month="February"
-                day="2"
-              />
-              <EventComponent
-                title="The Uppsala River Rafting Event"
-                location="Los Angeles, Indiana, US"
-                month="February"
-                day="3"
-              />
-            </ScrollView>
-          </View>
-        </View>
+        {isLoading ? (
+          <ActivityIndicator style={{marginTop: 50}} />
+        ) : (
+          <View>
+            <View style={styles.eventBrowserContainer}>
+              <View style={styles.browserTitleContainer}>
+                <Text style={styles.browserText}>UPCOMING EVENTS</Text>
+                <TouchableOpacity>
+                  <Text style={styles.browserExpandText}>View All</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.eventsContainer}>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  renderItem={renderItem}
+                />
+              </View>
+            </View>
 
-        <View style={styles.eventBrowserContainer}>
-          <View style={styles.browserTitleContainer}>
-            <Text style={styles.browserText}>NEARBY EVENTS</Text>
-            <TouchableOpacity>
-              <Text style={styles.browserExpandText}>View All</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.eventsContainer}>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <EventComponent
-                title="Mountain Climbing Training for Beginners"
-                location="Noblesville, Indiana, US"
-                month="January"
-                day="26"
-              />
-              <EventComponent
-                title="Curabitur malesuada laoreet volutpat fusce"
-                location="Los Angeles, Indiana, US"
-                month="January"
-                day="8"
-              />
-            </ScrollView>
-          </View>
-        </View>
+            <View style={styles.eventBrowserContainer}>
+              <View style={styles.browserTitleContainer}>
+                <Text style={styles.browserText}>NEARBY EVENTS</Text>
+                <TouchableOpacity>
+                  <Text style={styles.browserExpandText}>View All</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.eventsContainer}>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  renderItem={renderItem}
+                />
+              </View>
+            </View>
 
-        <View style={styles.eventBrowserContainer}>
-          <View style={styles.browserTitleContainer}>
-            <Text style={styles.browserText}>FAVORITE EVENTS</Text>
-            <TouchableOpacity>
-              <Text style={styles.browserExpandText}>View All</Text>
-            </TouchableOpacity>
+            <View style={styles.eventBrowserContainer}>
+              <View style={styles.browserTitleContainer}>
+                <Text style={styles.browserText}>FAVORITE EVENTS</Text>
+                <TouchableOpacity>
+                  <Text style={styles.browserExpandText}>View All</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.eventsContainer}>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  renderItem={renderItem}
+                />
+              </View>
+            </View>
           </View>
-          <View style={styles.eventsContainer}>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <EventComponent
-                title="Vestibulum auctor pharetra dolor sit"
-                location="Los Angeles, Indiana, US"
-                month="December"
-                day="1"
-              />
-              <EventComponent
-                title="Phasellus interdum dapibus sem vitae"
-                location="Los Angeles, Indiana, US"
-                month="December"
-                day="13"
-              />
-            </ScrollView>
-          </View>
-        </View>
+        )}
       </View>
     </ScrollView>
   );
