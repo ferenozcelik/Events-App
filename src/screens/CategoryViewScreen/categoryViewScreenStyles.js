@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   },
   searchBarContainer: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginBottom: 10,
+    justifyContent: 'space-between',
   },
   searchBar: {
     width: 320,
@@ -52,7 +53,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.lightblue,
     borderRadius: 5,
-    marginLeft: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },

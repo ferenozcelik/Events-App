@@ -70,7 +70,7 @@ const HomeScreen = ({navigation}) => {
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  data={data.sort((a, b) => a.date.localeCompare(b.date))}
                   renderItem={renderItem}
                 />
               </View>
@@ -87,7 +87,7 @@ const HomeScreen = ({navigation}) => {
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  data={data.sort((a, b) => a.date.localeCompare(b.date))}
                   renderItem={renderItem}
                 />
               </View>
@@ -104,7 +104,7 @@ const HomeScreen = ({navigation}) => {
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
-                  data={data.sort((a, b) => b.date.localeCompare(a.date))}
+                  data={data.sort((a, b) => a.date.localeCompare(b.date))}
                   renderItem={renderItem}
                 />
               </View>

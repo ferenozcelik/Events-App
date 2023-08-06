@@ -3,30 +3,11 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import colors from '../assets/colors/colors';
 import eventImage from '../assets/images/eventCover.png';
 import {useNavigation} from '@react-navigation/native';
+import {getMonthName} from './Constants';
 
 const EventComponent = props => {
   const navigation = useNavigation();
   const item = props.item;
-
-  function getMonthName(dateString) {
-    var arr = dateString.split('-');
-    var months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    var month_index = parseInt(arr[1], 10) - 1;
-    return months[month_index];
-  }
 
   var monthName = getMonthName(item.date);
 
